@@ -1,0 +1,15 @@
+<h1>Change User</h1>
+
+<form action="/usuarios/updateUserWithId" method="post">
+   {{#each userSelected}}
+
+<input type="hidden" name="id" value="{{this.id}}">
+    <input type="text" placeholder="{{this.nome}}" name="nome">
+    <input type="submit" value="change">
+    
+    {{/each}}
+
+
+
+
+</form>

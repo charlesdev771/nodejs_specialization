@@ -1,0 +1,26 @@
+<link rel="stylesheet" href="/css/styles.css">
+
+
+<h1>Hello World!</h1>
+
+<h1>Meu nome eh: {{user.name}} e meu email: {{user.email}}</h1>
+
+<div class="entry">
+{{#if auth}}
+<h1>Logado</h1>
+{{/if}}
+</div>
+
+<ul>
+{{#each auth}}
+<li>{{this}}</li>
+{{/each}}
+</ul>
+
+
+<form action="/createUser" method="post">
+
+    <input type="text" placeholder="nome" name="nome">
+    <input type="submit" value="send">
+
+</form>

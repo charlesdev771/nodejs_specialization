@@ -1,0 +1,11 @@
+{{#each userSelected}}
+
+<p> ID: {{this.id}}</p><br>
+<p>Nome: {{this.nome}}</p><br>
+<form action="/usuarios/remove/{{ this.id }}" method="POST">
+<input type="submit" value="remover">
+</form>
+<hr>
+
+
+{{/each}}

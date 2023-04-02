@@ -1,9 +1,12 @@
 const express = require("express");
-
 const app = express();
+const mysql = require("mysql");
 const port = 7777;
-const path = require("path");
-const basePath = path.join(__dirname, 'templates');
+const handle = require("express-handlebars");
+
+
+app.engine('handlebars', handle.engine());
+app.set('view engine', 'handlebars');
 app.use( 
     express.urlencoded({
         extended: true, 
@@ -17,7 +20,12 @@ app.use(express.static('public'));
 
 
 
+
+
 const userRoutes = require("./users");
+const hbs = handle.create({
+    partialsDir:['views/partials']
+});
 
 /*const checkAuth = function(req, res, next) 
 {
@@ -43,15 +51,33 @@ app.use(checkAuth);
 //    res.send("Hello World!");
 //});
 
-app.use('/users', userRoutes);
+app.use('/', userRoutes);
 
 
-
-app.get("/", (req, res) => {
-    res.sendFile(`${basePath}/index.html`);
-  });
-
-
-app.listen(port, ()=>{
-    console.log("aa");
+const conn = mysql.createConnection({
+    hist: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'meubanco',
 });
+
+conn.connect(function(err){
+
+    if(err)
+    {
+        console.log("Not connected...");
+    }
+
+    console.log("connected!");
+
+    app.listen(3000);
+
+});
+
+
+
+
+
+
+
+
