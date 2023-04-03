@@ -6,6 +6,7 @@ const port = 3000;
 const {Sequelize} = require("sequelize");
 const conn = require('./db/conn');
 const User = require('./models/User');
+const Address = require('./models/Address');
 app.engine('handlebars', ehb.engine());
 app.set('view engine', 'handlebars');
 app.use(
@@ -83,9 +84,57 @@ const sequelize = new Sequelize('banco2', 'root', '',{
     dialect: 'mysql',
 });
 
+app.get('/edit/:id', async (req, res, next) => {
+
+    const id = req.params.id;
+    const user = await User.findOne({raw: true, where: {id: id}});
+    res.render("edit", {user: user});
+
+
+});
+
+app.post('/edit', async (req, res, next) => {
+
+    const id = req.body.id;
+    const name = req.body.name;
+    const occupation = req.body.occupation;
+    const newsletter = req.body.newsletter;
+
+    const userData = 
+    {
+        id, name, occupation, newsletter,
+    }
+
+    await User.update(userData, {where: {id:id}});
+
+    res.redirect('/');
+
+});
+
+app.post('/createAdress', async (req, res, next) => {
+    const userId = req.body.UserId;
+    const street = req.body.street;
+    const number = req.body.number;
+    const city = req.body.city;
+
+    const address = 
+    {
+        userId, 
+        street,
+        number,
+        city,
+    }
+
+    await Address.create(address);
+
+    res.redirect('/');
+
+})
+
 
 
 conn
+    //.sync({force: true})
     .sync()
     .then(()=> {
         app.listen(port);
